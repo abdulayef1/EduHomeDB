@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="EduHome" id="Project-d41" database="MySql" >
+	<schema name="eduhome" >
+		<table name="assessments" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="assessment" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_assessments" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_assessments_course_features" to_schema="eduhome" to_table="course_features" >
+				<fk_column name="id" pk="assessment" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="blogs" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<index name="pk_blogs" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="contacts" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<index name="pk_contacts" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="course_catagories" prior="course_catago" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="catagory" prior="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="course" type="INT" jt="4" />
+			<index name="pk_course_catagories" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_course_catagories_course" unique="UNIQUE_KEY" >
+				<column name="course" />
+			</index>
+			<fk name="fk_course_catagories_courses" to_schema="eduhome" to_table="courses" >
+				<fk_column name="id" pk="course_catagory" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="course_details" prior="course" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="how_to_apply" prior="h" type="TEXT" length="500" jt="-1" />
+			<column name="certıfıcatıon" type="TEXT" length="1000" jt="-1" />
+			<index name="pk_course_details" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_course_details_courses" to_schema="eduhome" to_table="courses" >
+				<fk_column name="id" pk="course_details" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="course_features" prior="course" >
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="start_date" type="DATE" jt="91" mandatory="y" />
+			<column name="duration" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="class_duration" prior="class_durati" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<column name="student_count" prior="students_count" type="INT" jt="4" mandatory="y" />
+			<column name="language" type="INT" jt="4" />
+			<column name="assessment" type="INT" length="30" jt="4" />
+			<column name="skill_level" type="INT" jt="4" />
+			<column name="course_fee" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_course_features" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_course_features_language" unique="UNIQUE_KEY" >
+				<column name="language" />
+			</index>
+			<index name="unq_course_features_assessment" unique="UNIQUE_KEY" >
+				<column name="assessment" />
+			</index>
+			<index name="unq_course_features_skill_level" unique="UNIQUE_KEY" >
+				<column name="skill_level" />
+			</index>
+			<fk name="fk_course_features_courses" to_schema="eduhome" to_table="courses" >
+				<fk_column name="id" pk="course_features" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="courses" prior="tbl" >
+			<comment><![CDATA[catagory ile name i eyni vermek duzgun deil,eyni catogory de ferqli adi olan bir kurs yaran biler]]></comment>
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="course_catagory" prior="course_catagories" type="INT" jt="4" />
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="image" type="VARCHAR" length="256" jt="12" mandatory="y" />
+			<column name="description" type="TEXT" length="1000" jt="-1" />
+			<column name="about_course" type="TEXT" length="1000" jt="-1" />
+			<column name="course_details" type="INT" jt="4" />
+			<column name="course_features" prior="tags" type="INT" jt="4" />
+			<index name="pk_courses" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_courses_course_catagories" unique="UNIQUE_KEY" >
+				<column name="course_catagory" />
+			</index>
+			<index name="unq_courses_course_details" unique="UNIQUE_KEY" >
+				<column name="course_details" />
+			</index>
+			<index name="unq_courses_tags" unique="UNIQUE_KEY" >
+				<column name="course_features" />
+			</index>
+			<fk name="fk_courses_course_catagories" to_schema="eduhome" to_table="course_catagories" >
+				<fk_column name="id" pk="course" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="event_details" prior="event" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<index name="pk_event_details" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="events " prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="image" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="description" type="TEXT" length="1000" jt="-1" />
+			<column name="event_day" type="DATE" jt="91" mandatory="y" />
+			<column name="start_time" type="DATE" jt="91" />
+			<column name="finish_time" type="DATE" jt="91" />
+			<column name="venue" type="INT" jt="4" mandatory="y" />
+			<index name="pk_events " unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_events _venue" unique="UNIQUE_KEY" >
+				<column name="venue" />
+			</index>
+			<fk name="fk_events _events_and_speakers" to_schema="eduhome" to_table="events_and_speakers" >
+				<fk_column name="id" pk="event_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="events_and_speakers" prior="events_and" >
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="speaker_id" type="INT" jt="4" mandatory="y" />
+			<column name="event_id" type="INT" jt="4" mandatory="y" />
+			<index name="pk_events_and_speakers" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_events_and_speakers_speaker_id" unique="UNIQUE_KEY" >
+				<column name="speaker_id" />
+			</index>
+			<index name="unq_events_and_speakers_event_id" unique="UNIQUE_KEY" >
+				<column name="event_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="languages" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="language" prior="name" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_languages" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_languages_course_features" to_schema="eduhome" to_table="course_features" >
+				<fk_column name="id" pk="language" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="skill_levels" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="level" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_skill_levels" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_skill_levels" to_schema="eduhome" to_table="course_features" >
+				<fk_column name="id" pk="skill_level" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="speakers" prior="speak" >
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" />
+			<column name="surname" type="VARCHAR" length="100" jt="12" />
+			<column name="image" type="VARCHAR" length="100" jt="12" />
+			<column name="tittle" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_speakers" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_speakers" to_schema="eduhome" to_table="events_and_speakers" >
+				<fk_column name="id" pk="speaker_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="tags" prior="tbl" >
+			<comment><![CDATA[taglar bashqa yerde istifade oluna biler ona gore course detailsde table inda vemek duzgun deyil]]></comment>
+			<column name="id " type="INT" jt="4" mandatory="y" />
+			<column name="name" type="VARCHAR" length="25" jt="12" mandatory="y" />
+			<index name="pk_tags" unique="PRIMARY_KEY" >
+				<column name="id " />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="teacher_details" prior="teacher_" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<index name="pk_teacher_details" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="teachers" prior="tbl" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<index name="pk_teachers" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="venue_addresses" prior="venue" >
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="address" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_venue_addresses" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_venue_addresses_events " to_schema="eduhome" to_table="events " >
+				<fk_column name="id" pk="venue" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
+	<layout name="Default Layout" id="Layout-2484" joined_routing="y" show_column_type="y" show_page_borders="y" show_relation="columns" >
+		<comment><![CDATA[EduHome]]></comment>
+		<entity schema="eduhome" name="assessments" color="EED6C1" x="64" y="416" />
+		<entity schema="eduhome" name="contacts" color="EED6C1" x="1264" y="1312" />
+		<entity schema="eduhome" name="course_catagories" color="C6EEC1" x="320" y="48" />
+		<entity schema="eduhome" name="course_details" color="00FF00" x="368" y="176" />
+		<entity schema="eduhome" name="course_features" color="C6EEC1" x="448" y="320" />
+		<entity schema="eduhome" name="courses" color="00FF00" x="736" y="80" />
+		<entity schema="eduhome" name="events " color="00FFFF" x="640" y="912" />
+		<entity schema="eduhome" name="events_and_speakers" color="C1D8EE" x="336" y="880" />
+		<entity schema="eduhome" name="languages" color="EED6C1" x="80" y="320" />
+		<entity schema="eduhome" name="skill_levels" color="EED6C1" x="64" y="512" />
+		<entity schema="eduhome" name="speakers" color="C1D8EE" x="48" y="896" />
+		<entity schema="eduhome" name="tags" color="EAEEC1" x="2272" y="144" />
+		<entity schema="eduhome" name="venue_addresses" color="C1D8EE" x="336" y="1056" />
+	</layout>
+</project>
